@@ -1,0 +1,13 @@
+.DS_Store
+**/.DS_Store
+Notebook/elevation.tif
+Codes/__pycache__/Hydro_LSTM.cpython-38.pyc
+Codes/__pycache__/importing.cpython-38.pyc
+Codes/__pycache__/LSTM.cpython-38.pyc
+Codes/__pycache__/utils.cpython-38.pyc
+Notebook/.ipynb_checkpoints/Figures-checkpoint.ipynb
+hydroLSTM/
+Notebook/neuralhydrology
+Notebook/RF_mean_0.0.0.0
+Notebook/elevation.tif
+Notebook/forcing_mauren.nc

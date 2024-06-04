@@ -1,0 +1,63 @@
+digraph Tree {
+node [shape=box, style="rounded", color="black", fontname="helvetica"];
+edge [fontname="helvetica"];
+0 [label="elev_mean <= 1543.465"];
+1 [label="slope_mean <= 14.43"];
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"];
+2 [label="gvf_diff <= 0.375"];
+1 -> 2 ;
+3 [label="soil_conductivity <= 5.089
+ 
+ -[ Cluster 1 ]-"];
+2 -> 3 ;
+4 [label="(...)"];
+3 -> 4 ;
+5 [label="(...)"];
+3 -> 5 ;
+6 [label="p_mean <= 2.808
+ 
+ -[ Cluster 2 ]-"];
+2 -> 6 ;
+7 [label="(...)"];
+6 -> 7 ;
+10 [label="(...)"];
+6 -> 10 ;
+13 [label="gvf_diff <= 0.325"];
+1 -> 13 ;
+14 [label="p_mean <= 4.509
+ 
+ -[ Cluster 3 ]-"];
+13 -> 14 ;
+15 [label="(...)"];
+14 -> 15 ;
+18 [label="(...)"];
+14 -> 18 ;
+23 [label="pet_mean <= 2.37
+ 
+ -[ Cluster 4 ]-"];
+13 -> 23 ;
+24 [label="(...)"];
+23 -> 24 ;
+27 [label="(...)"];
+23 -> 27 ;
+28 [label="elev_mean <= 1809.215"];
+0 -> 28 [labeldistance=2.5, labelangle=-45, headlabel="False"];
+29 [label="end
+ 
+ -[ Cluster 5 ]-"];
+28 -> 29 ;
+30 [label="frac_forest <= 0.117"];
+28 -> 30 ;
+31 [label="end
+ 
+ -[ Cluster 6 ]-"];
+30 -> 31 ;
+32 [label="elev_mean <= 2757.11
+ 
+ -[ Cluster 7 ]-"];
+30 -> 32 ;
+33 [label="(...)"];
+32 -> 33 ;
+34 [label="(...)"];
+32 -> 34 ;
+}
