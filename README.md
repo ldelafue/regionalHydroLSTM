@@ -1,8 +1,7 @@
-# Regionalization
+# Regional HydroLSTM
 
 By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
 
-> *De la Fuente, L. A., Gupta, H. V., and Condon, L. E.: XXX, XXX [preprint], XXX, 2024.*
 > *De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: Toward interpretable LSTM-based modeling of hydrological systems, Hydrology and Earth System Sciences, 28(4), 945-971, https://doi.org/10.5194/hess-28-945-2024, 2024.*
 
 This repository is splited in 4 different sections.
