@@ -247,7 +247,7 @@ def creating_dataset(code, code_list, code_att,n_attributes, lag, ini_training, 
         y_min = ds.y_min
         y_mean = ds.y_mean
         len_train = len(ds.y)
-        print('training:', len_train)
+        #print('training:', len_train)
         
         # Create a torch dataset for the validation data and adjust dataset properties
         ds_valid = torch_dataset(PP_valid, PET_valid, Q_valid, lag, ini_training, x_max, x_min, x_mean, y_max, y_min, y_mean, istrain=False)
@@ -256,12 +256,12 @@ def creating_dataset(code, code_list, code_att,n_attributes, lag, ini_training, 
         #ds_valid.y = ds_valid.y[-(len_valid - len_train):]
         #ds_valid.num_samples = len(ds_valid.y)
         len_valid = len(ds_valid.y)
-        print('validation:', len_valid)
+        #print('validation:', len_valid)
         
         # Create a torch dataset for the testing data and prepare data loader
         ds_full = torch_dataset(PP_test, PET_test, Q_test, lag, ini_training, x_max, x_min, x_mean, y_max, y_min, y_mean, istrain=False)
         len_test = len(ds_full.y) #- len_train - len_valid
-        print('testing:', len_test)
+        #print('testing:', len_test)
         #sampler_test = SequentialSampler(ds_full)
         #loader_test = DataLoader(ds_full, batch_size=batch_size, sampler=sampler_test, shuffle=False)
 
@@ -413,6 +413,7 @@ def train_epoch(model, optimizer, loss_func, loader, epoch, loader_valid, patien
 
 
 
+
     total_valid = sum(valid_losses)
     length_valid = len(valid_losses)
     epoch_valid_loss = total_valid/length_valid
@@ -541,4 +542,14 @@ def position_highest(lst):
     position = [index for index, value in enumerate(lst) if value == max_value]
 
     return position[0]
+
+def position_lowest(lst):
+    if not lst:
+        return None  # Return None for an empty list
+
+    min_value = min(lst)
+    position = [index for index, value in enumerate(lst) if value == min_value]
+
+    return position[0]
+
 

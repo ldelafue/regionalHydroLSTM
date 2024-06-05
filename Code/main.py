@@ -38,17 +38,19 @@ parser.add_argument('--code', type=int, help='Gauge ID of the catchment trained 
 parser.add_argument('--cells', type=int, help='Number of HydroLSTM cells in parallel (only for HydroLSTM)')  
 parser.add_argument('--memory', type=int,help='Number of lagged days used for HydroLSTM (Zero is the current time step)')  
 parser.add_argument('--learning_rate', default=1e-4) 
-parser.add_argument('--epochs', type=int, default=512)  #
+parser.add_argument('--epochs', type=int, default=512)
+parser.add_argument('--batch', type=int, default=8, help='Only aplicable for HydroLSTM')
+parser.add_argument('--ensemble', type=int, default=20, help='Number of models in the ensemble (Only aplicable for HydroLSTM)')
 parser.add_argument('--model', choices=["HYDRO","regionalHYDRO"], help='Local or regional HydroLSTM to use in the training')  
 
 cfg = vars(parser.parse_args())  # Parse the command-line arguments and convert them to a dictionary
 
-cfg["memory"] = 512
-cfg["model"] = "HYDRO"
-cfg["cells"] = int(1)
-cfg["learning_rate"] = 0.0001
-cfg["code"] = 11230500
-cfg["epochs"] = int(5)
+# cfg["memory"] = 512
+# cfg["model"] = "HYDRO"
+# cfg["cells"] = int(1)
+# cfg["learning_rate"] = 0.0001
+# cfg["code"] = 11230500
+# cfg["epochs"] = int(5)
 
 #%%
 #Initialization of general parameters
@@ -58,8 +60,8 @@ n_variables = 2  # Number of variables (e.g., Precip and PET) is set to 2
 n_attributes = 17  # Number of attributes used from CAMELS dataset
 dropout = 0  # Set the dropout rate to 0. Parsimonious model need all the conections
 processor = "cpu"  # Set the processor to "cpu"
-batch_size_values = [128]  # Define batch size values as a list with a single element 128
-n_models_HydroLSTM = 20 #number of random models run only for HydroLSTM 
+batch_size_values = [cfg["batch"]]  # Define batch size values as a list with a single element 128
+n_models_HydroLSTM = cfg["ensemble"] #number of random models run only for HydroLSTM 
 load_RF = True  # Set a flag to indicate whether to load the initial weights requiered to run Random Forest model
 first_RF_epoch = 4
 RF_step = 20
@@ -70,6 +72,7 @@ if cfg["model"] == "regionalHYDRO":
     cfg["code"] = 1000000
     cfg["cells"] = int(1)
     cfg["memory"] = 512
+    cfg["batch"] = 128
 
 
 
@@ -142,7 +145,8 @@ lag = cfg["memory"] + 1 #adding the 0 day
 # Loop over batch size and state size values to generate datasets and model summaries
 for batch_size in batch_size_values:
     for state_size in state_size_values:
-
+        print('--------------------------------------------------------------------------------------------------------------')
+        print(f'model #{i}')
         # Initialize lists for normalization statistics
         # x_max = []
         # x_min = []
@@ -156,6 +160,7 @@ for batch_size in batch_size_values:
         input_size = n_variables * lag
 
         # Create datasets for training, validation, and testing
+        print('Preparing the dataset')
         ds, ds_valid, ds_full, y_scaler, len_train, len_valid , len_test = creating_dataset(cfg["code"], code_list, code_att, n_attributes,lag, ini_training, training_last_day, validation_last_day)
          
 
@@ -178,9 +183,9 @@ for batch_size in batch_size_values:
             sampler = SequentialSampler(ds)
             loader = DataLoader(ds, batch_size=batch_size, sampler=sampler, shuffle=False) # create subset (batches) of the data
             sampler_valid = SequentialSampler(ds_valid)
-            loader_valid = DataLoader(ds_valid, batch_size=ds_valid.num_samples - ds.num_samples, sampler=sampler_valid, shuffle=False) # create subset (batches) of the data
+            loader_valid = DataLoader(ds_valid, batch_size=ds_valid.num_samples, sampler=sampler_valid, shuffle=False) # create subset (batches) of the data
             sampler_test = SequentialSampler(ds_full)
-            loader_test = DataLoader(ds_full, batch_size=batch_size, sampler=sampler_test, shuffle=False)
+            loader_test = DataLoader(ds_full, batch_size=ds_full.num_samples, sampler=sampler_test, shuffle=False)
             
             optimizer = torch.optim.Adam(model.parameters(), lr=cfg["learning_rate"])
 
@@ -205,8 +210,11 @@ for batch_size in batch_size_values:
                 if stopping:
                     break
             
-            post_best = position_highest(valid_losses_model)
+
+            post_best = position_lowest(valid_losses_model)
             model = model_list[post_best]
+            post_best = post_best + 1
+            print(f'best model at epoch:{post_best}')
 
 
         # training based on the model_option
@@ -415,6 +423,7 @@ for batch_size in batch_size_values:
                 iteration = iteration + 1
 
 
+
 #%%  
 # calculation of the metrics         
 
@@ -541,7 +550,9 @@ for batch_size in batch_size_values:
 
             q_sim = q_sim.flatten()
             q_obs = q_obs.flatten()
-            state_value = state_value.flatten()
+            if state_size == 1:
+                state_value = state_value.flatten()
+
 
             end_train = ds.num_samples
             
@@ -564,7 +575,8 @@ for batch_size in batch_size_values:
             results.at[i,'MAE'] = MAE
             results.at[i,'R2'] = R2
             results.at[i,'CC'] = CC
-            results.at[i,'Bias'] = BIAS
+            results.at[i,'std_ratio'] = std_s / std_o
+            results.at[i,'Bias_ratio'] = mean_s / mean_o
             results.at[i,'KGE_valid'] = KGE
 
             # Generate date ranges and expand code list for predictions DataFrame
@@ -660,4 +672,9 @@ else:
         name_file = str(cfg["code"]) + '_C' + str(state_size) + '_L' + str(lag-1) + '_regionalhydro_regression.csv'
         RF_regression.to_csv(name_file)
 
+print('--------------------------------------------------------------------------------------------------------------')
+print('--------------------------------------------------------------------------------------------------------------')
+print('Model trained successfully')
+print('--------------------------------------------------------------------------------------------------------------')
+print('--------------------------------------------------------------------------------------------------------------')
 
