@@ -32,12 +32,13 @@ with warnings.catch_warnings():
 #%% Functions
 from Hydro_LSTM import *
 #from HydroLSTM_regional import *
-from HydroLSTM_regional_testing import *
+from HydroLSTM_global3 import *
 from utils import *
 #%% reading parameter
 parser = argparse.ArgumentParser()  # Create an ArgumentParser object to handle command-line arguments
 parser.add_argument('--code', type=int, help='Gauge ID of the catchment trained with HydroLSTM')  
-parser.add_argument('--memory', type=int,help='Number of lagged days used for HydroLSTM (Zero is the current time step)')  
+parser.add_argument('--memory', type=int,help='Number of lagged days used for HydroLSTM (Zero is the current time step)')
+parser.add_argument('--cells', type=int, help='Number of HydroLSTM cells in parallel (only for HydroLSTM)')    
 parser.add_argument('--model', choices=["HYDRO","regionalHYDRO"], help='Local or regional HydroLSTM to use in the training')  
 
 cfg = vars(parser.parse_args())  # Parse the command-line arguments and convert them to a dictionary
@@ -81,7 +82,7 @@ if cfg["model"] == "regionalHYDRO":
     parent_directory = os.path.dirname(current_directory)
     
     # Change to the target directory within the parent directory
-    target_directory = os.path.join(parent_directory, 'Results/RF_mean_0.0.0.0')
+    target_directory = os.path.join(parent_directory, 'Results/RF_mean')
     path_RF_weight = target_directory + "/" + path_RF_weight
 else:
     cfg["cells"] = int(1)
@@ -198,7 +199,7 @@ for batch_size in batch_size_values:
         elif cfg["model"] == 'regionalHYDRO':
 
             # Change to the target directory within the parent directory
-            target_directory = os.path.join(parent_directory, 'Results/RF_mean_0.0.0.0')
+            target_directory = os.path.join(parent_directory, 'Results/RF_mean')
             path_Hydro_model = target_directory + "/" + '1000000_C1_L512_regionalhydro_model.pkl'
             path_RF_model = target_directory + "/" + '1000000_C1_L512_regionalhydro_RF_model.pkl'
             path_RF_regression = target_directory + "/" + '1000000_C1_L512_regionalhydro_RF_regression.pkl'

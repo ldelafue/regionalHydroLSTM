@@ -84,7 +84,7 @@ if cfg["model"] == "regionalHYDRO":
     parent_directory = os.path.dirname(current_directory)
     
     # Change to the target directory within the parent directory
-    target_directory = os.path.join(parent_directory, 'Results/RF_mean_0.0.0.0')
+    target_directory = os.path.join(parent_directory, 'Results/RF_mean')
     path_RF_weight = target_directory + "/" + path_RF_weight 
 
 #%%

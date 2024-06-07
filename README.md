@@ -43,7 +43,7 @@ The unzipped folder must be stored in Results folder.
 ## Codes
 This folder has 7 python scripts used in the training and testing.
   - main.py: This code is calling all the other files during training. The script has some parameterization such as gauge ID, #cells, #memory (days), learning rate, #epochs, and the model used (HYDRO or regionalHYDRO)
-  - Hydro_LSTM.py, HydroLSTM_regional.py, and HydroLSTM_regional_testing: They create a class with the specific structure. Its equation can be found in this script. The last script is used to read the models saved in Results.
+  - Hydro_LSTM.py, HydroLSTM_regional.py, and HydroLSTM_global3: They create a class with the specific structure. Its equations can be found in this script. The last script is used to read the regional HydroLSTM model saved in Results.
   - importing.py: This script read the data for each catchment and create a dataframe.
   - utils.py: This script has some specific functions used to create the datsaet and train the model.
   - testing.py: This code run the saved model in results to generate the testing results. The script has the same parameterization than main.py
@@ -51,14 +51,14 @@ This folder has 7 python scripts used in the training and testing.
 ## Training
 Once you have the environment set up and the data downloaded, you can train a model with the code. You have two options. You can train a single catchment with the HydroLSTM representation:
 ```
-conda activate regionalization
+conda activate regionalhydroLSTM
 cd your_local_github_repository/regionalization/Code
-python main.py --code 9223000 --cells 1 --memory 256 --epochs 5 --model HYDRO
+python main.py --code 9223000 --cells 1 --memory 256 --epochs 512 --model HYDRO
 ```
 
 The second option is training a the regional HydroLSTM with the 569 catchments used in the paper.
 ```
-conda activate regionalization
+conda activate regionalhydroLSTM
 cd your_local_github_repository/regionalization/Code
 python main.py --epochs 100 --model regionalHYDRO
 ```
@@ -91,14 +91,14 @@ The files of the training will be stored in the same folder where the codes are.
 Similar to training, you have 2 options for creating the results in the testing period, HydroLSTM and regional HydroLSTM. In the case of HydroLSTM, the script runs the best model saved in the folder '/Results/hydroLSTM/best model'. Therefore, for any specific catchment you should match the number of cells and memory (lag) of the model saved there.
 
 ```
-conda activate regionalization
+conda activate regionalhydroLSTM
 cd your_local_github_repository/regionalization/Code
 python testing.py --code 1022500 --cells 1 --memory 128 --model HYDRO
 ```
 
 The second option is evaluating the 569 catchments with the regional HydroLSTM model. This script read the model saved in '/Results/RF_mean/'
 ```
-conda activate regionalization
+conda activate regionalhydroLSTM
 cd your_local_github_repository/regionalization/Code
 python testing.py --model regionalHYDRO
 ```
@@ -111,7 +111,7 @@ This folder has the files used in the paper. The 3 folder downloaded previusly m
 This folder the jupyter notebook and the files used to create each of the figures presented in the paper. All the figures are contained in the jupyter notebook Figures.ipynb.
 
 ```
-conda activate regionalization
+conda activate regionalhydroLSTM
 cd your_local_github_repository/regionalization/Notebook
 jupyter lab Figures.ipynb
 ```
