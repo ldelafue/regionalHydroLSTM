@@ -4,11 +4,14 @@ By using the Code or the HydroLSTM representation in your publication(s), you ag
 
 > *De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: Toward interpretable LSTM-based modeling of hydrological systems, Hydrology and Earth System Sciences, 28(4), 945-971, https://doi.org/10.5194/hess-28-945-2024, 2024.*
 
-This repository is splited in 4 different sections.
+This repository is splited in 7 different sections.
+  - Getting started
   - Data
   - Codes
+  - Training
+  - Testing
   - Results
-  - Notebooks
+  - Notebook
 
 ## Getting started
 To run the code you must set up the conda environment first. You must use the follow lines to clone the repo and create the environment (the last step may take some time):
@@ -18,7 +21,7 @@ cd your_local_github_repository/regionalization
 conda env create -f environment.yml
 ```
 
-### Data
+## Data
 There are two sources of data needed to run all the scripts and notebooks. The first one if the raw data that can be found in the Data folder. This folder contains the three sources of data needed to train a model(USGS, CAMELS attributes, CAMELS time series). That information is completely available in this repository, so you do not need to request or download information from another source.
 
 By using the CAMELS attributes in your publication(s), you agree to cite:
@@ -37,7 +40,7 @@ The second source of data are the results presented in the paper. This data must
 
 The unzipped folder must be stored in Results folder.
 
-### Codes
+## Codes
 This folder has 7 python scripts used in the training and testing.
   - main.py: This code is calling all the other files during training. The script has some parameterization such as gauge ID, #cells, #memory (days), learning rate, #epochs, and the model used (HYDRO or regionalHYDRO)
   - Hydro_LSTM.py, HydroLSTM_regional.py, and HydroLSTM_regional_testing: They create a class with the specific structure. Its equation can be found in this script. The last script is used to read the models saved in Results.
@@ -45,7 +48,7 @@ This folder has 7 python scripts used in the training and testing.
   - utils.py: This script has some specific functions used to create the datsaet and train the model.
   - testing.py: This code run the saved model in results to generate the testing results. The script has the same parameterization than main.py
 
-### Training
+## Training
 Once you have the environment set up and the data downloaded, you can train a model with the code. You have two options. You can train a single catchment with the HydroLSTM representation:
 ```
 conda activate regionalization
@@ -84,7 +87,7 @@ The files of the training will be stored in the same folder where the codes are.
     - 1000000_C1_L512_regionalhydro_weights.csv: it has the weights predicted by RF in the best epoch.
     - 1000000_C1_L512_regionalhydro_regression.csv: It has the weights predicted by RF regression in the best epoch.          
 
-### Testing
+## Testing
 Similar to training, you have 2 options for creating the results in the testing period, HydroLSTM and regional HydroLSTM. In the case of HydroLSTM, the script runs the best model saved in the folder '/Results/hydroLSTM/best model'. Therefore, for any specific catchment you should match the number of cells and memory (lag) of the model saved there.
 
 ```
@@ -101,10 +104,10 @@ python testing.py --model regionalHYDRO
 ```
 The files of the testing will be stored in the same folder where the codes are. The files are similar to the training but with the suffix 'testing'.
 
-### Results
+## Results
 This folder has the files used in the paper. There are 3 folders containing the results of different runs. hydroLSTM folder has the results of training the 569 catchment by hydroLSTM model. The neuralhydrology folder has the result of training one regional LSTM model for the same 569 catchemnt. The folder RF_mean_0.0.0.0 has the result of running the regional HydroLSTM model for the same catchments.
 
-### Notebooks
+## Notebook
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupyter notebook Figures.ipynb.
 
 
