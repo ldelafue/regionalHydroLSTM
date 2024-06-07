@@ -19,7 +19,8 @@ from datetime import timedelta
 from datetime import date
 from datetime import datetime
 import random 
-import pickle 
+import pickle
+import os 
 from sklearn.ensemble import RandomForestRegressor 
 import warnings
 with warnings.catch_warnings():
@@ -66,6 +67,7 @@ load_RF = True  # Set a flag to indicate whether to load the initial weights req
 first_RF_epoch = 4
 RF_step = 20
 RF_plot = False
+path_RF_weight = '1000000_C1_L512_regionalhydro_weights_base.csv' 
 
 #%% Setting an internal ID=1000000 when we train a regional model
 if cfg["model"] == "regionalHYDRO":
@@ -73,8 +75,17 @@ if cfg["model"] == "regionalHYDRO":
     cfg["cells"] = int(1)
     cfg["memory"] = 512
     cfg["batch"] = 128
+    batch_size_values = [cfg["batch"]]  
 
-
+    # Get the current working directory
+    current_directory = os.getcwd()
+    
+    # Change to the parent directory
+    parent_directory = os.path.dirname(current_directory)
+    
+    # Change to the target directory within the parent directory
+    target_directory = os.path.join(parent_directory, 'Results/RF_mean_0.0.0.0')
+    path_RF_weight = target_directory + "/" + path_RF_weight 
 
 #%%
 # Set initial training, last training day, and last validation day based on the code
@@ -118,6 +129,7 @@ if cfg["code"] == 1000000:
     results = pd.DataFrame(columns=['lag', 'batch', 'cell', 'RMSE', 'R2', 'std_ratio', 'CC', 'Bias', 'KGE_valid'])
     results_catchment = pd.DataFrame(columns=['code', 'lag', 'batch', 'cell', 'RMSE', 'R2', 'std_ratio', 'CC', 'Bias_ratio', 'KGE_valid'])
 
+    
 else:
     # Initialize DataFrames for predictions, state results, and evaluation metrics for a single gauge
     predictions = pd.DataFrame(np.zeros([days_train_valid +2, n_models_HydroLSTM + 2 ]))
@@ -126,7 +138,10 @@ else:
     code_list = pd.DataFrame()
     code_att = pd.DataFrame()
 
-
+# Convert the entire DataFrame to object dtype
+predictions = predictions.astype(object)
+state_results = state_results.astype(object)
+    
 #%%  
 # Preparing dataset
 
@@ -191,7 +206,7 @@ for batch_size in batch_size_values:
 
             loss_func = nn.SmoothL1Loss() #nn.L1Loss()
             
-            learning_rates = {200: cfg["learning_rate"], 250: cfg["learning_rate"]} # in case we want to change the learning rate for different epoch
+            learning_rates = {100: cfg["learning_rate"]/2, 200: cfg["learning_rate"]/4} # in case we want to change the learning rate for different epoch
             
             valid_losses = [] # to track the validation loss as the model trains
             model_list = []
@@ -234,7 +249,7 @@ for batch_size in batch_size_values:
         
             # Load random forest weights if specified
             if load_RF:
-                path_RF_weight = '1000000_C1_L512_regionalhydro_weights_base.csv' #'RF_mean_weights.csv' #Hard coding
+
                 RF_weights = pd.read_csv(path_RF_weight,  index_col= 0)    
                 RF_weights = RF_weights.reindex(code_att.index)
                 RF_weights.dropna(inplace=True)
@@ -360,7 +375,7 @@ for batch_size in batch_size_values:
             
                 # Move data to the device (e.g., GPU) if available
                 x_epoch, y_epoch = x_epoch.to(DEVICE), y_epoch.to(DEVICE)
-                y_epoch = y_epoch.resize(len(y_epoch), 1) 
+                y_epoch.resize_(len(y_epoch), 1) 
             
                 # Generate predictions for the current epoch
                 if load_RF:
@@ -402,7 +417,7 @@ for batch_size in batch_size_values:
                 x_epoch, y_epoch = data
     
                 x_epoch, y_epoch = x_epoch.to(DEVICE), y_epoch.to(DEVICE)
-                y_epoch = y_epoch.resize(len(y_epoch),1)
+                y_epoch.resize_(len(y_epoch),1)
     
                 pred_epoch = model(x_epoch)[0]
                 c_epoch = model(x_epoch)[2]
@@ -578,7 +593,8 @@ for batch_size in batch_size_values:
             results.at[i,'std_ratio'] = std_s / std_o
             results.at[i,'Bias_ratio'] = mean_s / mean_o
             results.at[i,'KGE_valid'] = KGE
-
+            print(results)
+            
             # Generate date ranges and expand code list for predictions DataFrame
             dates = pd.date_range(start=ini_training, end=validation_last_day)
             

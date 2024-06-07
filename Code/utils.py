@@ -423,7 +423,7 @@ def train_epoch(model, optimizer, loss_func, loader, epoch, loader_valid, patien
     
    
 
-    if epoch >= patience:
+    if epoch > patience:
         if (mean_valid_losses[epoch-1] > mean_valid_losses[epoch - patience]):
             print("Early stopping")
             stopping = True

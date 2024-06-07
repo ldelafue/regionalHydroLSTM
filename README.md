@@ -29,21 +29,18 @@ By using the CAMELS time series in your publication(s), you agree to cite:
 
 > *Newman, A. J., Clark, M. P., Sampson, K., Wood, A., Hay, L. E., Bock, A., Viger, R., Blodgett, D., Brekke, L., Arnold, J. R., Hopson, T. and Duan, Q.: Development of a large-sample watershed-scale hydrometeorological dataset for the contiguous USA: dataset characteristics and assessment of regional variability in hydrologic model performance, Hydrology and Earth System Sciences, 19, 209–223, doi:10.5194/hess-19-209-2015, 2015.*
 
-The second source of data are the results presented in the paper. This data must be downloaded in your local github folder in order of running the jupyter notebook which creates the paper figures. You can download this data by running the following lines:
+The second source of data are the results presented in the paper. This data must be downloaded in your local github folder in order of running the jupyter notebook which creates the paper figures. You can download this data from the following links.
 
-```
-cd your_local_github_repository/regionalization
-conda activate regionalhydroLSTM
-python data_download.py
-```
+  - neuralhydrology.zip (18.2 MB): https://drive.google.com/uc?export=download&id=1--C6MJf7G1OrM8IHj55OJOI5jQuozp1u
+  - RF_mean_0.0.0.0.zip (5.56 GB): https://drive.google.com/uc?export=download&id=13qwiI8Sj4XplXQt712y8NUcdOMU35cJs
+  - hydroLSTM.zip (5.46 GB): https://drive.google.com/uc?export=download&id=16wTinNOgK9ItixG0DsD1qqLawKP5OitE
 
-You will need to do this step only the first time you want to recreate the figures of the paper.
-
+The unzipped folder must be stored in Results folder.
 
 ### Codes
-This folder has XXX python scripts used in the training and testing.
+This folder has 7 python scripts used in the training and testing.
   - main.py: This code is calling all the other files during training. The script has some parameterization such as gauge ID, #cells, #memory (days), learning rate, #epochs, and the model used (HYDRO or regionalHYDRO)
-  - Hydro_LSTM.py and HydroLSTM_regional.py: They create a class with the specific structure. Its equation can be found in this script.
+  - Hydro_LSTM.py, HydroLSTM_regional.py, and HydroLSTM_regional_testing: They create a class with the specific structure. Its equation can be found in this script. The last script is used to read the models saved in Results.
   - importing.py: This script read the data for each catchment and create a dataframe.
   - utils.py: This script has some specific functions used to create the datsaet and train the model.
   - testing.py: This code run the saved model in results to generate the testing results. The script has the same parameterization than main.py
@@ -59,7 +56,7 @@ python main.py --code 9223000 --cells 1 --memory 256 --epochs 5 --model HYDRO
 The second option is training a the regional HydroLSTM with the 569 catchments used in the paper.
 ```
 conda activate regionalization
-cd Codes
+cd your_local_github_repository/regionalization/Codes
 python main.py --epochs 100 --model regionalHYDRO
 ```
 
@@ -68,7 +65,7 @@ To see the available options, you can use:
 python main.py -h, --help
 ```
 
-The files of the training will be store in the same folder where the codes are. These are the list of files that will be created by the script:
+The files of the training will be stored in the same folder where the codes are. These are the list of files that will be created by the script:
 
   - HydroLSTM:
     - code_cells_memory_hydro_models.pkl: it has a list of the ensamble models. By default are 20 models.
@@ -77,7 +74,7 @@ The files of the training will be store in the same folder where the codes are. 
     - code_cells_memory_hydro_summary.csv: Summary of different metrics during the validation period.
 
   - Regional HydroLSTM:
-    - 1000000_C1_L512_regionalhydro_models.pkl: it has the last HydroLSTM model.
+    - 1000000_C1_L512_regionalhydro_models.pkl: It has the last HydroLSTM model.
     - 1000000_C1_L512_regionalhydro_predictions.csv: Predictions for the training and validation period for all the catchments.
     - 1000000_C1_L512_regionalhydro_state.csv: Values of the internal state variable for all the catchments.
     - 1000000_C1_L512_regionalhydro_summary.csv: Overall summary of different metrics in the validation period.
@@ -85,15 +82,27 @@ The files of the training will be store in the same folder where the codes are. 
     - 1000000_C1_L512_regionalhydro_RF_model.pkl: it has the RF model to predict the weights for HydroLSTM.
     - 1000000_C1_L512_regionalhydro_RF_regression.pkl: it has the RF model to predict the weights for the linear layer after HydroLSTM.
     - 1000000_C1_L512_regionalhydro_weights.csv: it has the weights predicted by RF in the best epoch.
-    - 1000000_C1_L512_regionalhydro_regression.csv: it has the weights predicted by RF regression in the best epoch.          
-
+    - 1000000_C1_L512_regionalhydro_regression.csv: It has the weights predicted by RF regression in the best epoch.          
 
 ### Testing
-PENDING
+Similar to training, you have 2 options for creating the results in the testing period, HydroLSTM and regional HydroLSTM. In the case of HydroLSTM, the script runs the best model saved in the folder '/Results/hydroLSTM/best model'. Therefore, for any specific catchment you should match the number of cells and memory (lag) of the model saved there.
+
+```
+conda activate regionalization
+cd Codes
+python testing.py --code 1022500 --cells 1 --memory 128 --model HYDRO
+```
+
+The second option is evaluating the 569 catchments with the regional HydroLSTM model. This script read the model saved in '/Results/RF_mean_0.0.0.0/'
+```
+conda activate regionalization
+cd Codes
+python testing.py --model regionalHYDRO
+```
+The files of the testing will be stored in the same folder where the codes are. The files are similar to the training but with the suffix 'testing'.
 
 ### Results
 This folder has the files used in the paper. There are 3 folders containing the results of different runs. hydroLSTM folder has the results of training the 569 catchment by hydroLSTM model. The neuralhydrology folder has the result of training one regional LSTM model for the same 569 catchemnt. The folder RF_mean_0.0.0.0 has the result of running the regional HydroLSTM model for the same catchments.
-
 
 ### Notebooks
 This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupyter notebook Figures.ipynb.

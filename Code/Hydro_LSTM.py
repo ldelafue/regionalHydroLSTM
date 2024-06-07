@@ -93,7 +93,7 @@ class HYDRO_LSTM(nn.Module):
 
         for it in range(batch_size):
             x_t = x_transp.data[:, it]
-            x_t = x_t.resize(self.input_size, 1)
+            x_t.resize_(self.input_size, 1)
 
             if self.state_size == 1:
                 gates = (torch.addmm(self.bias, self.weight_recur, h_0) + torch.mm(self.weight_input, x_t))  # calculate gates

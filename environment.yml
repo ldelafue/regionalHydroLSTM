@@ -219,7 +219,7 @@ dependencies:
   - nss=3.100=hc6e9f88_0
   - numpy=1.26.4=py310hd45542a_0
   - openjpeg=2.5.2=h9f1df11_0
-  - openssl=3.3.0=hfb2fe0b_3
+  - openssl=3.3.1=hfb2fe0b_0
   - overrides=7.7.0=pyhd8ed1ab_0
   - packaging=24.0=pyhd8ed1ab_0
   - pandas=2.2.2=py310h2216879_1
@@ -270,7 +270,7 @@ dependencies:
   - rfc3986-validator=0.1.1=pyh9f0ad1d_0
   - rpds-py=0.18.1=py310h947b723_0
   - rtree=1.2.0=py310ha3239f5_0
-  - scikit-learn=1.5.0=py310h64e73be_1
+  - scikit-learn=1.2.2=py310h02d4e2a_2
   - scipy=1.13.1=py310h7057308_0
   - send2trash=1.8.3=pyh31c8845_0
   - setuptools=70.0.0=pyhd8ed1ab_0
