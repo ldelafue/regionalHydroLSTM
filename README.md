@@ -34,8 +34,8 @@ By using the CAMELS time series in your publication(s), you agree to cite:
 
 The second source of data are the results presented in the paper. This data must be downloaded in your local github folder in order of running the jupyter notebook which creates the paper figures. You can download this data from the following links.
 
-  - neuralhydrology.zip (18.2 MB): https://drive.google.com/uc?export=download&id=1--C6MJf7G1OrM8IHj55OJOI5jQuozp1u
-  - RF_mean_0.0.0.0.zip (5.56 GB): https://drive.google.com/uc?export=download&id=13qwiI8Sj4XplXQt712y8NUcdOMU35cJs
+  - neuralhydrology.zip (18.2 MB): 
+  - RF_mean.zip (5.56 GB): 
   - hydroLSTM.zip (5.46 GB): https://drive.google.com/uc?export=download&id=16wTinNOgK9ItixG0DsD1qqLawKP5OitE
 
 The unzipped folder must be stored in Results folder.
@@ -52,14 +52,14 @@ This folder has 7 python scripts used in the training and testing.
 Once you have the environment set up and the data downloaded, you can train a model with the code. You have two options. You can train a single catchment with the HydroLSTM representation:
 ```
 conda activate regionalization
-cd Codes
+cd your_local_github_repository/regionalization/Code
 python main.py --code 9223000 --cells 1 --memory 256 --epochs 5 --model HYDRO
 ```
 
 The second option is training a the regional HydroLSTM with the 569 catchments used in the paper.
 ```
 conda activate regionalization
-cd your_local_github_repository/regionalization/Codes
+cd your_local_github_repository/regionalization/Code
 python main.py --epochs 100 --model regionalHYDRO
 ```
 
@@ -92,25 +92,29 @@ Similar to training, you have 2 options for creating the results in the testing 
 
 ```
 conda activate regionalization
-cd Codes
+cd your_local_github_repository/regionalization/Code
 python testing.py --code 1022500 --cells 1 --memory 128 --model HYDRO
 ```
 
-The second option is evaluating the 569 catchments with the regional HydroLSTM model. This script read the model saved in '/Results/RF_mean_0.0.0.0/'
+The second option is evaluating the 569 catchments with the regional HydroLSTM model. This script read the model saved in '/Results/RF_mean/'
 ```
 conda activate regionalization
-cd Codes
+cd your_local_github_repository/regionalization/Code
 python testing.py --model regionalHYDRO
 ```
 The files of the testing will be stored in the same folder where the codes are. The files are similar to the training but with the suffix 'testing'.
 
 ## Results
-This folder has the files used in the paper. There are 3 folders containing the results of different runs. hydroLSTM folder has the results of training the 569 catchment by hydroLSTM model. The neuralhydrology folder has the result of training one regional LSTM model for the same 569 catchemnt. The folder RF_mean_0.0.0.0 has the result of running the regional HydroLSTM model for the same catchments.
+This folder has the files used in the paper. The 3 folder downloaded previusly must be located in this folder (unzipped). The folders containing the results of different runs. hydroLSTM folder has the results of training the 569 catchment by hydroLSTM model. The neuralhydrology folder has the result of training one regional LSTM model for the same 569 catchemnt. The folder RF_mean has the result of running the regional HydroLSTM model for the same catchments.
 
 ## Notebook
-This folder has the files used to create each of the figures presented in the paper. All the figures are contained in the jupyter notebook Figures.ipynb.
+This folder the jupyter notebook and the files used to create each of the figures presented in the paper. All the figures are contained in the jupyter notebook Figures.ipynb.
 
-
+```
+conda activate regionalization
+cd your_local_github_repository/regionalization/Notebook
+jupyter lab Figures.ipynb
+```
 
 
 

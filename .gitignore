@@ -10261,3 +10261,26 @@ Results/hydroLSTM/best model/__pycache__/Hydro_LSTM.cpython-38.pyc
 Results/hydroLSTM/best model/__pycache__/importing.cpython-38.pyc
 Results/hydroLSTM/best model/__pycache__/utils.cpython-38.pyc
 Results/hydroLSTM/best model/summary_best_lag.csv
+Results/RF_mean/list_IDs_all.csv
+Results/RF_mean/gauge_information2.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_weights_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_weights_base.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_weights.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_summary_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_summary_per_catchment_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_summary_per_catchment.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_summary.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_state_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_state.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_RF_regression.pkl
+Results/RF_mean/1000000_C1_L512_regionalhydro_RF_model.pkl
+Results/RF_mean/1000000_C1_L512_regionalhydro_regression_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_regression_base.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_regression.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_predictions_testing.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_predictions.csv
+Results/RF_mean/1000000_C1_L512_regionalhydro_model.pkl
+Results/RF_mean.zip
+Results/neuralhydrology.zip
+Results/hydroLSTM.zip
+Code/__pycache__/HydroLSTM_regional_testing.cpython-310.pyc
