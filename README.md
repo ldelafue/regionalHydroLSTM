@@ -1,8 +1,10 @@
 # Regional HydroLSTM
 
-By using the Code or the HydroLSTM representation in your publication(s), you agree to cite:
+By using the HydroLSTM and/or the regional HydroLSTM representation in your publication(s), you agree to cite:
 
 > *De la Fuente, L. A., Ehsani, M. R., Gupta, H. V., and Condon, L. E.: Toward interpretable LSTM-based modeling of hydrological systems, Hydrology and Earth System Sciences, 28(4), 945-971, https://doi.org/10.5194/hess-28-945-2024, 2024.*
+> 
+> *De la Fuente, L., Bennett, A,, Gupta, H, Condon, L.: A HydroLSTM-based Machine-Learning Approach to Discovering Regionalized Representations of Catchment Dynamics. ESS Open Archive . October 04, 2024. https://doi.org/10.22541/essoar.172801404.45473140/v1*
 
 This repository is splited in 7 different sections.
   - Getting started
