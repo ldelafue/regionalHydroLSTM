@@ -36,9 +36,9 @@ By using the CAMELS time series in your publication(s), you agree to cite:
 
 The second source of data are the results presented in the paper. This data must be downloaded in your local github folder in order of running the jupyter notebook which creates the paper figures. You can download this data from the following links.
 
-  - neuralhydrology.zip (227 MB): https://drive.google.com/uc?export=download&id=1KmR2KnTw9__U2uVGzAEQGIm7UhMCyhXB
-  - RF_mean.zip (5.56 GB): https://drive.google.com/uc?export=download&id=11Tnbkj5MrTyxoUU_uqZEe07KOgNfHqP-
-  - hydroLSTM.zip (5.46 GB): https://drive.google.com/uc?export=download&id=14akLsLSo-8cFWA7UDUhrSRVU-kmAkkTX
+  - neuralhydrology.zip (227 MB): https://drive.google.com/file/d/1KmR2KnTw9__U2uVGzAEQGIm7UhMCyhXB
+  - RF_mean.zip (5.56 GB): https://drive.google.com/file/d/1T-9w18-6uWBOhklUwXlt2dDGsoLaccLt
+  - hydroLSTM.zip (5.46 GB): https://drive.google.com/file/d/1ZwsracCGSW1l1P8JVK6tpgMZ8gLYXGRx
 
 The unzipped folder must be stored in Results folder.
 
